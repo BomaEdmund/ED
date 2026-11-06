@@ -1,0 +1,275 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ED | Student Management System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app">
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon">ED</div>
+            <div><h2>ED</h2><small>STUDENT PORTAL</small></div>
+        </div>
+
+        <p class="menu-label">MAIN MENU</p>
+        <nav>
+            <button class="nav-link active" data-page="dashboard">▦ Dashboard</button>
+            <button class="nav-link" data-page="students">♙ Students</button>
+            <button class="nav-link" data-page="courses">▤ Courses</button>
+            <button class="nav-link" data-page="attendance">◷ Attendance</button>
+            <button class="nav-link" data-page="results">▧ Results</button>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <div class="profile-avatar">AD</div>
+            <div><strong>Admin Desk</strong><small>Administrator</small></div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="topbar">
+            <div>
+                <p class="eyebrow">ED UNIVERSITY</p>
+                <h1 id="page-title">Dashboard</h1>
+            </div>
+            <div class="topbar-right">
+                <span id="today"></span>
+                <div class="top-avatar">AD</div>
+            </div>
+        </header>
+
+        <!-- DASHBOARD -->
+        <section class="page active" id="dashboard">
+            <div class="welcome">
+                <div>
+                    <p class="eyebrow">WELCOME BACK, ADMIN</p>
+                    <h2>Education begins with organisation.</h2>
+                    <p>Manage students, academic records and campus activities in one place.</p>
+                    <button class="gold-btn" onclick="openStudentModal()">+ Add New Student</button>
+                </div>
+                <div class="welcome-symbol">ED</div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span>Total Students</span>
+                    <h2 id="total-students">0</h2>
+                    <small>Registered students</small>
+                </div>
+                <div class="stat-card">
+                    <span>Courses</span>
+                    <h2 id="total-courses">0</h2>
+                    <small>Available programmes</small>
+                </div>
+                <div class="stat-card">
+                    <span>Present Today</span>
+                    <h2 id="present-count">0</h2>
+                    <small>Attendance records</small>
+                </div>
+                <div class="stat-card">
+                    <span>Results Added</span>
+                    <h2 id="results-count">0</h2>
+                    <small>Academic records</small>
+                </div>
+            </div>
+
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">OVERVIEW</p>
+                    <h2>Recently Registered Students</h2>
+                </div>
+                <button class="outline-btn" onclick="showPage('students')">View All →</button>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Student</th>
+                            <th>Student ID</th>
+                            <th>Department</th>
+                            <th>Level</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recent-students"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- STUDENTS -->
+        <section class="page" id="students">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">STUDENT DIRECTORY</p>
+                    <h2>Manage Students</h2>
+                    <p class="muted">Register, update and manage student information.</p>
+                </div>
+                <button class="primary-btn" onclick="openStudentModal()">+ Add Student</button>
+            </div>
+
+            <div class="toolbar">
+                <input type="search" id="student-search" placeholder="Search name, ID or email...">
+                <select id="department-filter">
+                    <option value="">All Departments</option>
+                    <option>Computer Science</option>
+                    <option>Information Technology</option>
+                    <option>Business Administration</option>
+                    <option>Accounting</option>
+                    <option>Mass Communication</option>
+                </select>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Student</th>
+                            <th>Student ID</th>
+                            <th>Email</th>
+                            <th>Department</th>
+                            <th>Level</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="student-table"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- COURSES -->
+        <section class="page" id="courses">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">ACADEMIC PROGRAMMES</p>
+                    <h2>Courses & Departments</h2>
+                </div>
+            </div>
+            <div class="course-grid" id="course-grid"></div>
+        </section>
+
+        <!-- ATTENDANCE -->
+        <section class="page" id="attendance">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">CLASS RECORDS</p>
+                    <h2>Attendance Management</h2>
+                    <p class="muted">Record student attendance.</p>
+                </div>
+            </div>
+            <div class="toolbar">
+                <input type="date" id="attendance-date">
+                <button class="primary-btn" onclick="saveAttendance()">Save Attendance</button>
+            </div>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr><th>Student</th><th>Student ID</th><th>Department</th><th>Attendance</th></tr>
+                    </thead>
+                    <tbody id="attendance-table"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- RESULTS -->
+        <section class="page" id="results">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">ACADEMIC PERFORMANCE</p>
+                    <h2>Student Results</h2>
+                </div>
+                <button class="primary-btn" onclick="openResultModal()">+ Add Result</button>
+            </div>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr><th>Student</th><th>Student ID</th><th>Course</th><th>Score</th><th>Grade</th><th>Action</th></tr>
+                    </thead>
+                    <tbody id="results-table"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <footer>
+            <span>© 2026 ED Student Management System</span>
+            <span>Designed for smarter education.</span>
+        </footer>
+    </main>
+</div>
+
+<!-- ADD / EDIT STUDENT MODAL -->
+<div class="modal" id="student-modal">
+    <div class="modal-content">
+        <button class="close-btn" onclick="closeModal('student-modal')">×</button>
+        <p class="eyebrow">STUDENT REGISTRATION</p>
+        <h2 id="student-modal-title">Add New Student</h2>
+
+        <form id="student-form">
+            <input type="hidden" id="edit-student-id">
+
+            <label>Full Name</label>
+            <input type="text" id="student-name" placeholder="Enter student's full name" required>
+
+            <label>Email Address</label>
+            <input type="email" id="student-email" placeholder="Enter email address" required>
+
+            <label>Phone Number</label>
+            <input type="tel" id="student-phone" placeholder="Enter phone number" required>
+
+            <label>Department</label>
+            <select id="student-department" required>
+                <option value="">Select department</option>
+                <option>Computer Science</option>
+                <option>Information Technology</option>
+                <option>Business Administration</option>
+                <option>Accounting</option>
+                <option>Mass Communication</option>
+            </select>
+
+            <label>Academic Level</label>
+            <select id="student-level" required>
+                <option value="">Select level</option>
+                <option>100 Level</option>
+                <option>200 Level</option>
+                <option>300 Level</option>
+                <option>400 Level</option>
+                <option>500 Level</option>
+            </select>
+
+            <button class="primary-btn full-btn" type="submit">Save Student Record</button>
+        </form>
+    </div>
+</div>
+
+<!-- RESULT MODAL -->
+<div class="modal" id="result-modal">
+    <div class="modal-content">
+        <button class="close-btn" onclick="closeModal('result-modal')">×</button>
+        <p class="eyebrow">ACADEMIC RECORD</p>
+        <h2>Add Student Result</h2>
+
+        <form id="result-form">
+            <label>Select Student</label>
+            <select id="result-student" required></select>
+
+            <label>Course</label>
+            <select id="result-course" required></select>
+
+            <label>Score (0–100)</label>
+            <input type="number" id="result-score" min="0" max="100" required>
+
+            <button class="primary-btn full-btn" type="submit">Save Result</button>
+        </form>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
